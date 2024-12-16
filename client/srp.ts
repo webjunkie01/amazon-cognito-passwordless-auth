@@ -89,14 +89,14 @@ function padHex(hexStr: string) {
   return hexStr;
 }
 
-function generateSmallA() {
+export function generateSmallA() {
   const { crypto } = configure();
   const randomValues = new Uint8Array(128);
   crypto.getRandomValues(randomValues);
   return arrayBufferToBigInt(randomValues.buffer);
 }
 
-async function calculateLargeAHex(smallA: bigint) {
+export async function calculateLargeAHex(smallA: bigint) {
   const { g, N } = await getConstants();
   return modPow(g, smallA, N).toString(16);
 }
@@ -250,6 +250,27 @@ function formatDate(d: Date) {
     p("year"),
   ].join(" ");
 }
+
+// export function signIn(username: string, password: string, authflow: string = "USER_SRP_AUTH", clientMetadata = ) {
+//   const { userPoolId, debug } = configure();
+//   if (!userPoolId) {
+//     throw new Error("UserPoolId must be configured");
+//   }
+//   const smallA = generateSmallA();
+//   const largeAHex = await calculateLargeAHex(smallA);
+//   debug?.(`Invoking initiateAuth ...`);
+//   const challenge = await initiateAuth({
+//         authflow,
+//         authParameters: {
+//           SRP_A: largeAHex,
+//           USERNAME: username,
+//           CHALLENGE_NAME: "SRP_A",
+//         },
+//         clientMetadata,
+//         abort: abort.signal,
+//       });
+//   const signIn = 
+// }
 
 export function authenticateWithSRP({
   username,
